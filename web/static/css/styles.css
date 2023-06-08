@@ -6,10 +6,12 @@ body {
 }
 
 header {
+  z-index: 100;
   background-color: black;
   color: #fff;
   display: flex;
   justify-content: center;
+  width: 100%;
 }
 
 #ham-menu {
@@ -21,8 +23,8 @@ header {
 }
 
 iframe{
-  height: auto;
   width:100%;
+  height: inherit;
 }
 
 .container {
@@ -30,23 +32,26 @@ iframe{
   min-height: calc(100vh - 80px);
 }
 
-.mainContainer{
-  height: 800px;
+.mainContainer {
+  height: 100%;
   display: flex;
 }
 
-ul.active{
-  background-color: wheat;
+.active {
+  background-color: white;
+  color: black;
 }
 
-li{
+li {
   width: 100%;
+  color: black;
 }
 
 ul {
+  height: auto;
+  background-color: black;
   display: flex;
   justify-content: space-between;
-  background-color:wheat;
   padding: 20px;
   margin: 0;
   width: 20%;
@@ -56,43 +61,46 @@ ul {
   gap: 2rem;
 }
 
- ul li a {
+ul li a {
   font-size: 1.8rem;
-  display: block;
+  display: flex;
   padding: 10px 20px;
-  color: black;
+  color: white;
   text-decoration: none;
+  justify-content: space-around;
 }
 
 ul li a:hover {
-  background-color: #ddd;
+  background-color: white;
+  color: black;
 }
+
 
 .main-content {
   width: 80%;
   padding: 20px;
-  /* flex: 1; */
 }
 
-  #dashboard{
-    background-color:aquamarine;
-    height: 800px;
-  }
+#dashboard {
+  background-color: aquamarine;
+  height: 100%;
+}
 
-  #users{
-    background-color:silver;
-    height: 800px;
-  }
+#users {
+  background-color: silver;
+  height: 100%;
+}
 
-  #products{
-  background-color:tan;
-  height: 800px;
-  }
+#products {
+  background-color: tan;
+  height: 100%;
+}
 
-  #orders{
-  background-color:gray;
-  height: 800px;
-  }
+#orders {
+  background-color: gray;
+  height: 100%;
+}
+
 
 footer {
   background-color: #333;
@@ -103,33 +111,53 @@ footer {
 
 ul.active {
   left: 0;
+  left: 0;
+  height: 80%;
+  position: absolute;
+  z-index: 1;
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  transition: 1s;
+  gap: 0;
 }
 
-@media only screen and (max-width: 991px) {
-  html {
-    font-size: 56.25%;
-  }
-  header {
-    padding: 2.2rem 5rem;
-  }
-}
+
 @media only screen and (max-width: 767px) {
 
   html {
     font-size: 50%;
+  }
+  
+  header {
+    padding: 2rem 3rem;
+  }
+
+  .container{
+    height: 100%;
+  }
+
+  .main-content {
+    z-index: -10;
+    position: absolute;
+    width: 100%;
+    padding: 20px 12px 20px 22px;
+    height: 80%;
   }
 
   #ham-menu {
     display: block;
     font-size: 8rem;
   }
-
-    ul {
-    position: fixed;
-    left:-100vw;
-    top: 73.6px;
+  ul.active {
+    left: 0;
+    left: 0;
+    height: 80%;
+    position: absolute;
+    z-index: 1;
     width: 40%;
-    height: calc(100vh - 73.6px);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -137,16 +165,64 @@ ul.active {
     transition: 1s;
     gap: 0;
   }
+
+  .active{
+    background-color:black;
+    color: white;
+  }
+
+  ul {
+    position: fixed;
+    left: -100vw;
+    top: 9rem;
+    width: 40%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    transition: 1s;
+    gap: 0;
+  }
+
+  ul li a {
+    font-size: 1.8rem;
+    display: flex;
+    padding: 10px 20px;
+    color: white;
+    text-decoration: none;
+    justify-content: space-around;
+  }
+  
 }
+
 @media only screen and (max-width: 575px) {
   html {
     font-size: 46.87%;
   }
+
   header {
     padding: 2rem 3rem;
   }
-   ul {
-    top: 9.2rem;
-    height: calc(100vh - 65.18px);
+
+  .main-content {
+    position: absolute;
+    width: 100%;
+    padding: 20px 12px 20px 22px;
+    height: 80%;
+  }
+
+  ul {
+    z-index: 1;
+    left: -100vw;
+    top: 60px;
+    width: 40%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    transition: 1s;
+    gap: 0;
   }
 }
