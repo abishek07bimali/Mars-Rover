@@ -1,0 +1,59 @@
+#include <Servo.h>
+
+const int trigPin = 9;
+const int echoPin = 10;
+
+long duration;
+int distinCM;
+
+Servo radarServo;
+
+void setup() {
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  Serial.begin(9600);
+  radarServo.attach(11);
+}
+
+void loop() {
+  int maxDistance = 0; // Maximum distance threshold for object detection
+
+  int maxDistAngle = 0; // Angle with maximum distance
+  int maxDist = 0; // Maximum distance
+
+  // Rotate the servo from 0 to 180 degrees and find the direction with maximum distance
+  for (int i = 0; i <= 90; i++) {
+    radarServo.write(i);
+    delay(50);
+    
+    // Trigger the ultrasonic sensor
+    digitalWrite(trigPin, LOW);
+    delayMicroseconds(2);
+    digitalWrite(trigPin, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(trigPin, LOW);
+    
+    // Measure the duration and calculate the distance
+    duration = pulseIn(echoPin, HIGH);
+    distinCM = duration * 0.034 / 2;
+
+    // Update the maximum distance and angle if a larger distance is detected
+    if (distinCM > maxDist) {
+      maxDist = distinCM;
+      maxDistAngle = i;
+    }
+  }
+
+  // Move the servo to the angle with the maximum distance
+  radarServo.write(maxDistAngle);
+  delay(1000);
+
+  // Print the maximum distance and angle to the serial monitor
+  Serial.print("Maximum Distance: ");
+  Serial.print(maxDist);
+  Serial.print(" cm\tAngle: ");
+  Serial.println(maxDistAngle);
+
+  // Delay before the next iteration
+  delay(2000);
+}
