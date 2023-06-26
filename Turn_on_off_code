@@ -1,0 +1,57 @@
+#include <ESP8266WiFi.h>
+#include "ThingSpeak.h" 
+char ssid[] = "aaa";   // your network SSID (name) 
+char pass[] = "password";   // your network password
+
+WiFiClient  client;
+//  channel details
+unsigned long channelNumber =2203625;
+char readAPIKey[] = "VEC040KR7P61DNQR";
+//
+int statusCode = 0;
+
+void setup() {
+  Serial.begin(115200);      
+  pinMode(D4,OUTPUT);
+  WiFi.begin(ssid, pass);
+  Serial.println("Connecting");
+  while(WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+    Serial.println("\nConnected");
+    
+WiFi.mode(WIFI_STA);
+ThingSpeak.begin(client); 
+  }
+
+
+void loop() {
+    
+    statusCode = ThingSpeak.readMultipleFields(channelNumber, readAPIKey) ;
+    
+    if(statusCode == 200)
+    {
+      // Fetch the stored data
+
+      int LED = ThingSpeak.getFieldAsInt(1); // Field 1
+      //int LED2 = ThingSpeak.getFieldAsInt(2); // Field 2
+      //int LED3 = ThingSpeak.getFieldAsInt(3); // Field 3......8
+      Serial.println(LED);  
+      if(LED==1)
+      {
+        digitalWrite(D4,HIGH);
+      }
+     if(LED==0)
+      {
+        digitalWrite(D4,LOW);
+      }
+    }
+    else{
+      Serial.println("Problem reading channel. HTTP error code " + String(statusCode)); k
+    }
+
+    Serial.println();
+    delay(1000); 
+       
+}
