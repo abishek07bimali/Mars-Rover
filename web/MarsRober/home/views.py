@@ -1,178 +1,76 @@
-from django.shortcuts import render, HttpResponse
-from home.models import Contact
-from home.models import SignIn
-from django.contrib import messages
-import requests
 from django.shortcuts import render
+from django.http import HttpResponse
+import requests
 import plotly.graph_objects as go
-from django.http import StreamingHttpResponse
-import cv2
+from django.core.paginator import Paginator
+import matplotlib
+matplotlib.use('Agg')  # Use the 'Agg' backend for non-interactive mode
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
+from datetime import datetime
+import time
+import subprocess
 
-
-# Create your views here.
-
-# def index(request):
-#     context = {
-#         "variable1":"this is sent",
-#         "variable2":"this is not sent"
-#     }
-#     return render(request, 'index.html', context)
+# from home.models import Data
 
 def dashboard(request):
     return render(request, 'dashboard.html')
 
-# def video_feed(request):
-#     return StreamingHttpResponse( content_type='multipart/x-mixed-replace; boundary=frame')
-
-
-# def signIn(request):
-#     if request.method=="POST":
-#         name = request.POST.get('name')
-#         email = request.POST.get('email')
-#         address = request.POST.get('address')
-#         password = request.POST.get('password')
-#         signIn = SignIn(name=name, email=email, password=password, address=address);
-#         signIn.save()
-#     messages.success(request, "Your account has been created.") 
-#     return render(request, 'signIn.html')
-
 def control(request):
     return render(request, 'control.html')
 
-# def contact(request):
-#     if request.method == "POST":
-#         name = request.POST.get('name')
-#         email = request.POST.get('email')
-#         number = request.POST.get('number')
-#         address = request.POST.get('address')
-#         contact = Contact(name=name, email=email, number=number, address=address);
-#         contact.save()
-#     return render(request, 'contact.html')
 
 def map(request):
     return render(request, 'location.html')
 
-# gsbvm$HKR6hj9?f
-
-
-import time
-
 def visualization(request):
-    url = "https://api.thingspeak.com/channels/2163202/feeds.json?api_key=4U7LW3KAUDIO0SSF"
+    API_URL = f'https://api.thingspeak.com/channels/2163202/feeds.json?api_key=4U7LW3KAUDIO0SSF'
 
-    while True:
-        print("normal")
-        response = requests.get(url)
-        data = response.json()
-        feeds = data['feeds']
-
-        # Extract data for visualization
-        field1_values = []
-        timestamps = []
-
-        for feed in feeds:
-            try:
-                field1_value = float(feed['field1'])
-                timestamp = feed['created_at']
-
-                # Skip empty or invalid values
-                if field1_value:
-                    field1_values.append(field1_value)
-                    timestamps.append(timestamp)
-            except (ValueError, KeyError):
-                # Handle empty or invalid values
-                continue
-
-        # Create the line chart trace for Field 1
-        trace = go.Scatter(
-            x=timestamps,
-            y=field1_values,
-            mode='lines',
-            name='Field 1'
-        )
-
-        # Create the chart layout
-        layout = go.Layout(
-            title='ThingSpeak Data',
-            xaxis=dict(title='Timestamp'),
-            yaxis=dict(title='Value'),
-            showlegend=True
-        )
-
-        # Create the chart figure
-        fig = go.Figure(data=[trace], layout=layout)
-
-        # Convert the chart to HTML
-        chart_html = fig.to_html(full_html=False)
-
-        context = {'feeds': feeds, 'chart_html': chart_html}
-        return render(request, 'visualization.html', context)
-
-        # Sleep for 10 seconds
-        time.sleep(10)
-
-
-
-    # for feed in feeds:
-    #     if 'field1' in feed:
-    #         field1_values.append(float(feed['field1']))
-    #     timestamps.append(feed['created_at'])
+    response = requests.get(API_URL)
+    data = response.json()['feeds']
     
+    start_index = 80;
+    end_index = 100;
+    
+    sliced_data = data[start_index:end_index]
+
+    paginator = Paginator(sliced_data, 10)   # Display 10 records per page
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    # Generate the chart
+    x = [entry['created_at'] for entry in sliced_data]
+    y = [entry['field1'] for entry in sliced_data]
+    x_formatted = [datetime.strptime(date, "%Y-%m-%dT%H:%M:%SZ").strftime("%b %d") for date in x]
+
+
+    fig, ax = plt.subplots()
+    ax.plot(x_formatted, y)
+    ax.set_xlabel('Date and Time')
+    ax.set_ylabel('Value')
+    ax.set_title('Data Chart')
+    ax.tick_params(axis='x', rotation=90)
+    plt.tight_layout()
     
 
+    # Save chart image to a buffer
+    
+    buffer = BytesIO()
+    plt.savefig(buffer, format='png')
+    buffer.seek(0)
+    image_base64 = base64.b64encode(buffer.read()).decode('utf-8')
+
+    plt.close(fig)
+
+    # Return the rendered template with the data and chart
+    return render(request, 'visualization.html', {'page_obj': page_obj, 'chart': image_base64})
 
 
-# classNames = []
-# classFile = "/home/pi/Desktop/Object_Detection_Files/coco.names"
-# with open(classFile, "rt") as f:
-#     classNames = f.read().rstrip("\n").split("\n")
-
-# configPath = "/home/pi/Desktop/Object_Detection_Files/ssd_mobilenet_v3_large_coco_2020_01_14.pbtxt"
-# weightsPath = "/home/pi/Desktop/Object_Detection_Files/frozen_inference_graph.pb"
-
-# net = cv2.dnn_DetectionModel(weightsPath, configPath)
-# net.setInputSize(320, 320)
-# net.setInputScale(1.0 / 127.5)
-# net.setInputMean((127.5, 127.5, 127.5))
-# net.setInputSwapRB(True)
-
-
-# def get_objects(img, thres, nms, draw=True, objects=[]):
-#     classIds, confs, bbox = net.detect(img, confThreshold=thres, nmsThreshold=nms)
-#     if len(objects) == 0:
-#         objects = classNames
-#     objectInfo = []
-#     if len(classIds) != 0:
-#         for classId, confidence, box in zip(classIds.flatten(), confs.flatten(), bbox):
-#             className = classNames[classId - 1]
-#             if className in objects:
-#                 objectInfo.append([box, className])
-#                 if draw:
-#                     cv2.rectangle(img, box, color=(0, 255, 0), thickness=2)
-#                     cv2.putText(img, classNames[classId - 1].upper(), (box[0] + 10, box[1] + 30),
-#                                 cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 2)
-#                     cv2.putText(img, str(round(confidence * 100, 2)), (box[0] + 200, box[1] + 30),
-#                                 cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 2)
-
-#     return img, objectInfo
-
-
-# def generate_video():
-#     camera = cv2.VideoCapture(0)  # Adjust the camera index if necessary
-#     while True:
-#         ret, frame = camera.read()
-#         if not ret:
-#             break
-
-#         frame, _ = get_objects(frame, 0.6, 0.2)
-#         ret, jpeg = cv2.imencode('.jpg', frame)
-#         yield (b'--frame\r\n'
-#                b'Content-Type: image/jpeg\r\n\r\n' + jpeg.tobytes() + b'\r\n\r\n')
-
-
-def index(request):
-    return render(request, 'index.html')
-
-
-# def video_feed(request):
-#     return StreamingHttpResponse(generate_video(), content_type='multipart/x-mixed-replace; boundary=frame')
+def run_script(request):
+    if request.method == 'POST':
+        # Execute the Python script
+        subprocess.run(['python', 'D:/Softwarica/SEM4/MarsRover/MarsRober/template/controller.py'])
+    
+    return render(request, 'control.html')

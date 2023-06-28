@@ -80,23 +80,45 @@
         </nav>
         <!-- partial -->
         <div class="main-panel" style="height: 100vh">
-            <div class="content-wrapper"></div>
+            <div class="content-wrapper">
+                <div>
+                    <h1 class=>Manual OverRide</h1>
+                    <form method="POST" action="{% url 'run_script' %}">
+                        {% csrf_token %}
+                        <input type="submit" value="Run Script" />
+                    </form>
+                </div>
+
+                <!-- <style>
+                    .button {
+                      border: none;
+                      color: white;
+                      padding: 15px 32px;
+                      text-align: center;
+                      text-decoration: none;
+                      display: inline-block;
+                      font-size: 16px;
+                      margin: 4px 2px;
+                      cursor: pointer;
+                    }
+                    .button1 {background-color: #4CAF50;} /* Green */
+                    .button2 {background-color: #008CBA;} /* Blue */
+                </style>
+                    <h1>LED</h1>
+                    <p></p>
+                    <button  onclick=" window.location.href ='https://api.thingspeak.com/update?api_key=XEE9USVI7THOIFD9&field1=1';" class="button button1">ON</button></a>
+                    <button onclick=" window.location.href ='https://api.thingspeak.com/update?api_key=XEE9USVI7THOIFD9&field1=0';" class="button button1">OFF</button>
+                     -->
+
             <!-- content-wrapper ends -->
             <!-- partial:../../partials/_footer.html -->
             <footer class="footer">
                 <div
                         class="d-sm-flex justify-content-center justify-content-sm-between"
                 >
-              <span
-                      class="text-muted text-center text-sm-left d-block d-sm-inline-block"
-              >
-                MarsRover</span
-              >
+              <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">MarsRover</span>
 
-                    <span
-                            class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"
-                    >
-              </span>
+            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"></span>
                 </div>
             </footer>
             <!-- partial -->

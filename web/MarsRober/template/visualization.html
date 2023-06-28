@@ -101,28 +101,88 @@
         <div class="main-panel" style="height: 100vh">
           <div class="content-wrapper">
             <h1>ThingSpeak Data</h1>
-            <div class="co-wrapper" style="display: flex; flex-direction: row">
-              <table
-                border="bg-black"
-                class="table table-striped table-hover table-primary table-responsive-sm"
-                style="width: 50%"
-              >
-                <thead>
-                  <tr>
-                    <th>Field</th>
-                    <!-- Add more field headers if needed -->
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for feed in feeds %}
-                  <tr>
-                    <td>{{ feed.field1 }}</td>
-                    <!-- Add more field data if needed -->
-                  </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
-              <div id="chart">{{ chart_html | safe }}</div>
+            <div
+              class="co-wrapper"
+              style="
+                display: flex;
+                flex-direction: row;
+                background-color: white;
+              "
+            >
+              <div class="tableandpagination" style="width: 100%">
+                <!-- Display the data table -->
+                <table
+                  class="table table-bordered table-striped table-responsive-sm"
+                >
+                  <thead class="table-dark">
+                    <tr>
+                      <th>Created At</th>
+                      <th>Field 1</th>
+                      <!-- Add more table headers as needed -->
+                    </tr>
+                  </thead>
+                  <tbody class="table-success">
+                    {% for item in page_obj %}
+                    <tr>
+                      <td>{{ item.created_at }}</td>
+                      <td>{{ item.field1 }}</td>
+                      <!-- Display other fields as needed -->
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+
+                <!-- Display pagination links -->
+                <div class="pagination my-5" style="display: flex">
+                  <span
+                    class="step-links"
+                    style="
+                      display: flex;
+                      flex-direction: row;
+                      width: 100%;
+                      justify-content: space-between;
+                    "
+                  >
+                    {% if page_obj.has_previous %}
+
+                    <a class="font-20 font-weight-bold" href="?page=1">
+                      &laquo; First</a
+                    >
+                    <a
+                      class="font-20 font-weight-bold"
+                      href="?page={{ page_obj.previous_page_number }}"
+                      >Previous</a
+                    >
+                    {% endif %} {% if page_obj.has_next %}
+                    <h2 class="current-page font-20 font-weight-bold">
+                      {{ page_obj.number }}
+                    </h2>
+
+                    <a
+                      class="font-20 font-weight-bold"
+                      href="?page={{ page_obj.next_page_number }}"
+                      >Next
+                    </a>
+
+                    <a
+                      class="font-20 font-weight-bold"
+                      href="?page={{ page_obj.paginator.num_pages }}"
+                      style="display: flex; flex-direction: row"
+                    >
+                      Last &raquo;
+                    </a>
+                    {% endif %}
+                  </span>
+                </div>
+              </div>
+
+              <!-- Display the chart image -->
+              <img
+                src="data:image/png;base64,{{ chart }}"
+                alt="Data Chart"
+                width="50%"
+              />
+              <!-- <div id="chart">{{ chart_html | safe }}</div> -->
             </div>
             <!-- content-wrapper ends -->
 
@@ -134,8 +194,8 @@
                 <span
                   class="text-muted text-center text-sm-left d-block d-sm-inline-block"
                 >
-                  MarsRover</span
-                >
+                  MarsRover
+                </span>
               </div>
             </footer>
 
@@ -144,41 +204,14 @@
 
           <!-- main-panel ends -->
         </div>
+
         <!-- page-body-wrapper ends -->
       </div>
+
       <!-- container-scroller -->
-      <!-- plugins:js -->
       <script src="/static/js/vendor.bundle.base.js"></script>
       <script src="/static/js/off-canvas.js"></script>
       <script src="/static/js/misc.js"></script>
-      <script>
-        // Function to display limited rows on the HTML page
-        function displayLimitedRows(data, limit) {
-          var tableBody = document.getElementById("table-body");
-          tableBody.innerHTML = ""; // Clearing existing rows
-
-          for (var i = 0; i < limit && i < data.length; i++) {
-            var row = document.createElement("tr");
-            var field1Cell = document.createElement("td");
-
-            field1Cell.textContent = data[i].field1;
-
-            row.appendChild(field1Cell);
-            tableBody.appendChild(row);
-          }
-        }
-
-        // Simulated data from ThingSpeak
-        var data = [
-          { field1: "Value 1" },
-          { field1: "Value 4" },
-          { field1: "Value 7" },
-          // ... more data
-        ];
-
-        // Call the function to display limited rows (e.g., 5 rows)
-        displayLimitedRows(data, 5);
-      </script>
     </div>
   </body>
 </html>

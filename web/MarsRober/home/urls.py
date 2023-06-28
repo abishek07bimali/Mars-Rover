@@ -9,5 +9,5 @@ urlpatterns = [
     path('control.html',views.control, name='control'),
     path('visualization.html',views.visualization, name='visualization'),
     path('location.html', views.map, name='map'),
-    # path('video_feed', views.video_feed, name='video_feed'),
+    path('run/', views.run_script, name='run_script'),
 ]
