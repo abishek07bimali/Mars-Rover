@@ -1,9 +1,0 @@
-% Enter your MATLAB code below
-
-lat = thingSpeakRead(2182971,'Fields',1,'ReadKey','DK2ERBUX2LK9G0J2','NumPoints',10,'Timeout',50);
-lon = thingSpeakRead(2182971,'Fields',2,'ReadKey','DK2ERBUX2LK9G0J2','NumPoints',10,'Timeout',50);
-
-
-geoscatter(lat,lon,'h');
-
-geobasemap('satellite');
