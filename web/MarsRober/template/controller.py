@@ -12,7 +12,7 @@ screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Pygame Controller")
 
 # Establish serial connection
-ser = serial.Serial('COM8', 9600) 
+ser = serial.Serial('COM4', 9600) 
 
 running = True
 

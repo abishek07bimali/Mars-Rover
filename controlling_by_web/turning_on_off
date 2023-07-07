@@ -1,0 +1,113 @@
+#include <TinyGPS++.h>
+#include <SoftwareSerial.h>
+#include <ESP8266WiFi.h>
+#include "ThingSpeak.h"
+
+// GPS-related constants
+static const int RXPin = 4, TXPin = 5;
+static const uint32_t GPSBaud = 9600;
+float latitude, longitude;
+String lat_str, lng_str;
+
+// Wi-Fi and ThingSpeak-related constants
+const char* ssid = "IOT";
+const char* password = "c0v3ntry";
+unsigned long myChannelNumber = 2182971;
+const char* myWriteAPIKey = "JWWMXLD790TUMKC7";
+char readAPIKey[] = "DK2ERBUX2LK9G0J2";
+
+// The TinyGPS++ and SoftwareSerial objects
+TinyGPSPlus gps;
+SoftwareSerial ss(RXPin, TXPin);
+
+// WiFiClient object for ThingSpeak
+WiFiClient client;
+
+// LED pin
+const int ledPin = D4;
+ int statusCode =0;
+
+void setup()
+{
+  Serial.begin(115200);
+  ss.begin(GPSBaud);
+
+  // Connect to Wi-Fi
+  Serial.print("Connecting to ");
+  Serial.println(ssid);
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED)
+  {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("");
+  Serial.println("WiFi connected");
+  Serial.println("IP address: ");
+  Serial.println(WiFi.localIP());
+  Serial.print("Netmask: ");
+  Serial.println(WiFi.subnetMask());
+  Serial.print("Gateway: ");
+  Serial.println(WiFi.gatewayIP());
+
+  // Initialize ThingSpeak
+  ThingSpeak.begin(client);
+
+  // Set LED pin as output
+  pinMode(ledPin, OUTPUT);
+}
+
+void loop()
+{
+  // Read GPS data
+  while (ss.available() > 0)
+  {
+    if (gps.encode(ss.read()))
+    {
+      if (gps.location.isValid())
+      {
+        // Retrieve latitude and longitude
+        latitude = gps.location.lat();
+        lat_str = String(latitude, 6);
+        longitude = gps.location.lng();
+        lng_str = String(longitude, 6);
+        Serial.print("Latitude = ");
+        Serial.println(lat_str);
+        Serial.print("Longitude = ");
+        Serial.println(lng_str);
+
+        // Send GPS data to ThingSpeak
+        ThingSpeak.setField(1, lat_str);
+        ThingSpeak.setField(2, lng_str);
+        ThingSpeak.writeFields(myChannelNumber, myWriteAPIKey);
+      }
+      delay(1000);
+      Serial.println();
+    }
+  }
+
+  // Read data from ThingSpeak and control LED
+  int statusCode = ThingSpeak.readMultipleFields(myChannelNumber, readAPIKey);
+
+  if (statusCode == 200)
+  {
+    // Fetch the stored data
+    int LED = ThingSpeak.getFieldAsInt(1); // Field 1
+
+    // Control LED based on the value received
+    if (LED == 1)
+    {
+      digitalWrite(ledPin, HIGH);
+    }
+    else if (LED == 0)
+    {
+      digitalWrite(ledPin, LOW);
+    }
+  }
+  else
+  {
+    Serial.println("Problem reading channel. HTTP error code " + String(statusCode));
+  }
+
+  delay(10);
+}

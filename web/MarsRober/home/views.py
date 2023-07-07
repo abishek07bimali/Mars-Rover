@@ -71,6 +71,6 @@ def visualization(request):
 def run_script(request):
     if request.method == 'POST':
         # Execute the Python script
-        subprocess.run(['python', 'D:/Softwarica/SEM4/MarsRover/MarsRober/template/controller.py'])
+        subprocess.run(['python', 'C:/Users/ACER/Desktop/project/Mars-Rover/web/MarsRober/template/controller.py'])
     
     return render(request, 'control.html')
