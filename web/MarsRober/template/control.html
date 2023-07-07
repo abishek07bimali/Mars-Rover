@@ -1,6 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>
+        .button {
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+        .button1 {background-color: #4CAF50;} /* Green */
+        .button2 {background-color: #008CBA;} /* Blue */
+    </style>
     <!-- Required meta tags -->
     <meta charset="utf-8"/>
     <meta
@@ -87,7 +103,24 @@
                         {% csrf_token %}
                         <input type="submit" value="Run Script" />
                     </form>
+
                 </div>
+                <div>
+                    <h1>LED</h1>
+                    <p></p>
+
+                    <!-- <button onclick="updateThingSpeakField()" class="button button1">ON</button>
+                    <button onclick="offThingSpeakField()" class="button button1">OFF</button> -->
+
+                    <button onclick=" window.location.href =' https://api.thingspeak.com/update?api_key=JWWMXLD790TUMKC7&field1=1';" class="button button1">ON</button>
+                    <button onclick=" window.location.href =' https://api.thingspeak.com/update?api_key=JWWMXLD790TUMKC7&field1=0';" class="button button1">OFF</button>
+
+
+                </div>
+
+
+
+
 
                 <!-- <style>
                     .button {
@@ -106,30 +139,49 @@
                 </style>
                     <h1>LED</h1>
                     <p></p>
-                    <button  onclick=" window.location.href ='https://api.thingspeak.com/update?api_key=XEE9USVI7THOIFD9&field1=1';" class="button button1">ON</button></a>
-                    <button onclick=" window.location.href ='https://api.thingspeak.com/update?api_key=XEE9USVI7THOIFD9&field1=0';" class="button button1">OFF</button>
+                    <button class=\"button buttonOff\">OFF</button></a>
+                    <button onclick=" window.location.href =' https://api.thingspeak.com/update?api_key=4SMEACYBK1I9KOJN&field1=0';" class="button button1">OFF</button>
                      -->
 
-            <!-- content-wrapper ends -->
-            <!-- partial:../../partials/_footer.html -->
-            <footer class="footer">
-                <div
-                        class="d-sm-flex justify-content-center justify-content-sm-between"
-                >
-              <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">MarsRover</span>
+                <!-- content-wrapper ends -->
+                <!-- partial:../../partials/_footer.html -->
+                <footer class="footer">
+                    <div
+                            class="d-sm-flex justify-content-center justify-content-sm-between"
+                    >
+                        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">MarsRover</span>
 
-            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"></span>
-                </div>
-            </footer>
-            <!-- partial -->
+                        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"></span>
+                    </div>
+                </footer>
+                <!-- partial -->
+            </div>
+            <!-- main-panel ends -->
         </div>
-        <!-- main-panel ends -->
+        <!-- page-body-wrapper ends -->
     </div>
-    <!-- page-body-wrapper ends -->
-</div>
-<!-- container-scroller -->
-<script src="/static/js/vendor.bundle.base.js"></script>
-<script src="/static/js/off-canvas.js"></script>
-<script src="/static/js/misc.js"></script>
+    <!-- container-scroller -->
+    <script src="/static/js/vendor.bundle.base.js"></script>
+    <script src="/static/js/off-canvas.js"></script>
+    <script src="/static/js/misc.js"></script>
+    <script>
+        function updateThingSpeakField() {
+            var httpRequest = new XMLHttpRequest();
+            var url = ' https://api.thingspeak.com/update?api_key=JWWMXLD790TUMKC7&field1=1';
+
+            httpRequest.open('GET', url);
+            httpRequest.send();
+        }
+    </script>
+
+    <script>
+        function offThingSpeakField() {
+            var httpRequest = new XMLHttpRequest();
+            var url = ' https://api.thingspeak.com/update?api_key=JWWMXLD790TUMKC7&field1=0';
+
+            httpRequest.open('GET', url);
+            httpRequest.send();
+        }
+    </script>
 </body>
 </html>
