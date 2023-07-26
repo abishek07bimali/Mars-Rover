@@ -85,18 +85,18 @@ while True:
         ser.write(b'd') # Send 'd' to Arduino for turning the servo-motor right
     elif keys[pygame.K_e]:
         ser.write(b'e') # Send 'e' to Arduino for stopping the servo-motor
-    elif keys[pygame.K_UP]:
-        ser.write(b'UP') # Send '4' to Arduino for turning the camera left
-    elif keys[pygame.K_DOWN]:
-        ser.write(b'DOWN') # Send '6' to Arduino for turning the camera right
+    elif keys[pygame.K_4]:
+        ser.write(b'4') # Send '4' to Arduino for turning the camera left
+    elif keys[pygame.K_6]:
+        ser.write(b'6') # Send '6' to Arduino for turning the camera right
     elif keys[pygame.K_5]:
         ser.write(b'5') # Send '5' to Arduino for stopping the camera
     elif keys[pygame.K_1]:
         ser.write(b'1') # Send '1' to Arduino for stopping the base of camera
-    elif keys[pygame.K_LEFT]:
-        ser.write(b'LEFT') # Send '2' to Arduino for turning the base of camera left
-    elif keys[pygame.K_RIGHT]:
-        ser.write(b'RIGHT') # Send '3' to Arduino for turning the base of camera right
+    elif keys[pygame.K_2]:
+        ser.write(b'2') # Send '2' to Arduino for turning the base of camera left
+    elif keys[pygame.K_3]:
+        ser.write(b'3') # Send '3' to Arduino for turning the base of camera right
 
     # Clear the screen
     screen.fill(WHITE)

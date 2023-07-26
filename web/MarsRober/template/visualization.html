@@ -41,10 +41,18 @@
           <li class="pt-2 pb-1">
             <span class="nav-item-head">Mars Rover</span>
           </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="Dash.html">
+              <i class="fa-solid fa-house menu-icon"></i>
+              <span class="menu-title">Dashboard</span>
+            </a>
+          </li>
+
           <li class="nav-item">
             <a class="nav-link" href="dashboard.html">
               <i class="fa-solid fa-clapperboard menu-icon"></i>
-              <span class="menu-title">Dashboard</span>
+              <span class="menu-title">Stream</span>
             </a>
           </li>
 
@@ -66,6 +74,13 @@
             <a class="nav-link" href="location.html">
               <i class="fa-sharp fa-solid fa-location-dot menu-icon"></i>
               <span class="menu-title">Map</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="images.html">
+              <i class="fa-regular fa-image menu-icon"></i>
+              <span class="menu-title">Images</span>
             </a>
           </li>
         </ul>
@@ -98,14 +113,14 @@
           </div>
         </nav>
         <!-- partial -->
-        <div class="main-panel" style="height: 100vh">
+        <div class="main-panel" style="height: auto">
           <div class="content-wrapper">
-            <h1>ThingSpeak Data</h1>
+            <h1>Sensor Data</h1>
             <div
               class="co-wrapper"
               style="
                 display: flex;
-                flex-direction: row;
+                flex-direction: column;
                 background-color: white;
               "
             >
@@ -116,17 +131,19 @@
                 >
                   <thead class="table-dark">
                     <tr>
-                      <th>Created At</th>
-                      <th>Field 1</th>
-                      <!-- Add more table headers as needed -->
+                      <th>Data Recorded At</th>
+                      <th>Smoke Sensor</th>
+                      <th>Temperature</th>
+                      <th>Humidity</th>
                     </tr>
                   </thead>
                   <tbody class="table-success">
                     {% for item in page_obj %}
                     <tr>
                       <td>{{ item.created_at }}</td>
-                      <td>{{ item.field1 }}</td>
-                      <!-- Display other fields as needed -->
+                      <td>{{ item.field6 }}</td>
+                      <td>{{ item.field4 }}</td>
+                      <td>{{ item.field7 }}</td>
                     </tr>
                     {% endfor %}
                   </tbody>
@@ -154,9 +171,9 @@
                       >Previous</a
                     >
                     {% endif %} {% if page_obj.has_next %}
-                    <h2 class="current-page font-20 font-weight-bold">
+                    <!-- <h2 class="current-page font-20 font-weight-bold">
                       {{ page_obj.number }}
-                    </h2>
+                    </h2> -->
 
                     <a
                       class="font-20 font-weight-bold"
@@ -176,13 +193,48 @@
                 </div>
               </div>
 
-              <!-- Display the chart image -->
-              <img
-                src="data:image/png;base64,{{ chart }}"
-                alt="Data Chart"
-                width="50%"
-              />
-              <!-- <div id="chart">{{ chart_html | safe }}</div> -->
+              <div>
+                <h1 class="mx-5">Visualization</h1>
+                <div
+                  class="my-5"
+                  style="display: flex; flex-wrap: wrap; gap: 7rem"
+                >
+                  <div
+                    class="my-5"
+                    style="
+                      display: flex;
+                      flex-wrap: wrap;
+                      justify-content: space-around;
+                    "
+                  >
+                    <!-- Display the chart for Sensor 1 (field1) -->
+                    <img
+                      src="data:image/png;base64,{{ chart_field1 }}"
+                      alt="Data Chart for Sensor 1"
+                      width="40%"
+                      height="400px"
+                    />
+
+                    <!-- Display the chart for Sensor 2 (field2) -->
+                    <img
+                      src="data:image/png;base64,{{ chart_field2 }}"
+                      alt="Data Chart for Sensor 2"
+                      width="40%"
+                      height="400px"
+                    />
+
+                    <!-- Display the chart for Sensor 3 (field3) -->
+                    <img
+                      src="data:image/png;base64,{{ chart_field3 }}"
+                      alt="Data Chart for Sensor 3"
+                      width="40%"
+                      height="400px"
+                    />
+
+                    <!-- Add more charts here for additional sensors if needed -->
+                  </div>
+                </div>
+              </div>
             </div>
             <!-- content-wrapper ends -->
 

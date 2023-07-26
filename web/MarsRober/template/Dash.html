@@ -12,9 +12,22 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
       rel="stylesheet"
     />
+    <link href="/static/css/vis.css" rel="stylesheet" />
 
+    <link
+      crossorigin="anonymous"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      rel="stylesheet"
+    />
+    <script
+      crossorigin="anonymous"
+      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    ></script>
     <link href="/static/css/materialdesignicons.min.css" rel="stylesheet" />
     <link href="/static/css/style.css" rel="stylesheet" />
+    <!-- End layout styles -->
   </head>
   <body>
     <div class="container-scroller">
@@ -72,6 +85,7 @@
           </li>
         </ul>
       </nav>
+
       <!-- partial -->
       <div class="container-fluid page-body-wrapper">
         <nav
@@ -99,35 +113,78 @@
           </div>
         </nav>
         <!-- partial -->
-        <div class="main-panel" style="height: 100vh">
-          <div class="content-wrapper">
-            <iframe
+        <div class="main-panel" style="height: auto">
+          <div
+            class="content-wrapper"
+            style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-around; padding-top: 10%;">
+          <div class="card text-white bg-primary mb-3" style="max-width: 18rem; height: 300px;">
+            <div class="card-header">Location</div>
+            <iframe class="m-1"
               src="https://thingspeak.com/apps/matlab_visualizations/515628"
-              style="border: 1px solid #cccccc; width: 100%; height: 100%"
+              style="border: 1px solid #cccccc; width: auto; height: auto"
             ></iframe>
-            <!-- <img src="{{ map_image_url }}" alt="Map" style="width: 100%; height: 100%; border: 1px solid #cccccc;"> -->
-          </div>
-          <!-- content-wrapper ends -->
+            <div class="card-body">
+              <h5 class="card-title text-white">Latitude: 27.70612525511591</h5>
+              <h5 class="card-title text-white">Longitude: 85.33014184585</h5>
 
-          <footer class="footer">
-            <div
-              class="d-sm-flex justify-content-center justify-content-sm-between"
-            >
-              <span
-                class="text-muted text-center text-sm-left d-block d-sm-inline-block"
-              >
-                MarsRover</span
-              >
             </div>
-          </footer>
-
-          <!-- partial -->
+          </div>
+          <div class="card text-white bg-secondary mb-3" style="width: 18rem;  height: 300px;">
+            <div class="card-header">Smoke Sensor</div>
+            <img class="m-1"
+            src="/static/images/smoke.png"
+            style="border: 1px solid #cccccc; width: auto; height: 45%; object-fit: contain;"
+          ></img>
+            <div class="card-body">
+              <h5 class="card-title text-white">Average: {{avg_smoke}}</h5>
+              <h5 class="card-title text-white">Highest: {{max_smoke}}</h5>
+              <h5 class="card-title text-white">Lowest: {{min_smoke}}</h5>
+            </div>
+          </div>
+          <div class="card text-white bg-warning mb-3" style="width: 18rem;  height: 300px;">
+            <div class="card-header">Temperature</div>
+            <img class="m-1"
+            src="/static/images/dht22.png"
+            style="border: 1px solid #cccccc; width: auto; height: 45%; object-fit: contain;"
+          ></img>
+            <div class="card-body">
+              <h5 class="card-title text-white">Average Temperature: {{avg_temp}} </h5>
+              <h5 class="card-title text-white">Highest Temperature: {{max_temp}}</h5>
+              <h5 class="card-title text-white">Lowest Temperature:  {{min_temp}}</h5>
+            </div>
+          </div>
+          <div class="card text-white bg-danger mb-3" style="width: 18rem;  height: 300px;">
+            <div class="card-header text-white">Humidity</div>
+            <img class="m-1"
+            src="/static/images/large-DHT 22  2.png"
+            style="border: 1px solid #cccccc; width: auto; height: 45%; object-fit: contain;"
+          ></img>
+            <div class="card-body">
+              <h5 class="card-title text-white">Average Humidity: {{avg_humidity}}</h5>
+              <h5 class="card-title text-white">Highest Humidity: {{max_humidity}}</h5>
+              <h5 class="card-title text-white">Lowest Humidity:  {{min_humidity}}</h5>
+            </div>
+          </div>
+          </div>
+            <footer class="footer">
+              <div
+                class="d-sm-flex justify-content-center justify-content-sm-between"
+              >
+                <span
+                  class="text-muted text-center text-sm-left d-block d-sm-inline-block"
+                >
+                  MarsRover
+                </span>
+              </div>
+            </footer>
+          </div>
+          <!-- main-panel ends -->
         </div>
 
-        <!-- main-panel ends -->
+        <!-- page-body-wrapper ends -->
       </div>
 
-      <!-- page-body-wrapper ends -->
+      <!-- container-scroller -->
     </div>
     <script src="/static/js/vendor.bundle.base.js"></script>
     <script src="/static/js/off-canvas.js"></script>
