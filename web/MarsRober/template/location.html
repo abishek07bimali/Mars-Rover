@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8"/>
+    <meta
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+            name="viewport"
+    />
+    <title>Plus Admin</title>
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            rel="stylesheet"
+    />
+
+    <link href="/static/css/materialdesignicons.min.css" rel="stylesheet"/>
+    <link href="/static/css/style.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="container-scroller">
+    <!-- partial:../../partials/_sidebar.html -->
+    <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+            <li class="nav-item nav-profile border-bottom">
+                <a class="nav-link flex-column" href="#"> </a>
+            </li>
+
+            <li class="pt-2 pb-1">
+                <span class="nav-item-head">Mars Rover</span>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="dashboard.html">
+                    <i class="fa-solid fa-clapperboard menu-icon"></i>
+                    <span class="menu-title">Dashboard</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="control.html">
+                    <i class="fa-solid fa-gears menu-icon"></i>
+                    <span class="menu-title">Control</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="visualization.html">
+                    <i class="fa-solid fa-chart-line menu-icon"></i>
+                    <span class="menu-title">Visualization</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="location.html">
+                    <i class="fa-sharp fa-solid fa-location-dot menu-icon"></i>
+                    <span class="menu-title">Map</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <nav
+                class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row"
+        >
+            <div class="navbar-menu-wrapper d-flex align-items-stretch">
+                <button class="navbar-toggler bg-black navbar-toggler align-self-center" data-toggle="minimize"
+                        id="rotate"
+                        onclick="rotateIcon()"
+                        type="button"
+                >
+                    <span class="fa-solid fa-square-caret-left" id="icn"></span>
+                </button>
+                <h1 class="m-2">Admin Panel</h1>
+                <button
+                        class="navbar-toggler navbar-toggler-right d-lg-none align-self-center"
+                        data-toggle="offcanvas"
+                        style="position: absolute; left: 85.4%"
+                        type="button"
+                >
+                    <span class="fa-solid fa-bars fa-lg menu-icon"></span>
+                </button>
+            </div>
+        </nav>
+        <!-- partial -->
+        <div class="main-panel" style="height: 100vh">
+            <div class="content-wrapper">
+                <iframe
+                        src="https://thingspeak.com/apps/matlab_visualizations/515628"
+                        style="border: 1px solid #cccccc; width: 100%; height: 100%"
+                ></iframe>
+            </div>
+            <!-- content-wrapper ends -->
+
+            <!-- partial:../../partials/_footer.html -->
+            <footer class="footer">
+                <div
+                        class="d-sm-flex justify-content-center justify-content-sm-between"
+                >
+              <span
+                      class="text-muted text-center text-sm-left d-block d-sm-inline-block"
+              >
+                MarsRover</span
+              >
+                </div>
+            </footer>
+
+            <!-- partial -->
+        </div>
+
+        <!-- main-panel ends -->
+    </div>
+
+    <!-- page-body-wrapper ends -->
+</div>
+<script src="/static/js/vendor.bundle.base.js"></script>
+<script src="/static/js/off-canvas.js"></script>
+<script src="/static/js/misc.js"></script>
+
+</body>
+</html>

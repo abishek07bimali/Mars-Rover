@@ -1,0 +1,291 @@
+// Including Servo library
+#include<Servo.h>
+
+// Servo1 initialization
+Servo servoMotor1;
+Servo servoMotor2;
+Servo servoMotor3;
+Servo servoMotor4;
+
+int angleTurn = 90;
+int angleCameraBase = 90;
+int angleCamera = 90;
+int increment1 = 1;
+int increment2 = 1;
+int increment3 = 1;
+
+// Motor A connections
+int enA1 = 3;
+int in1_1 = 4;
+int in2_1 = 5;
+// Motor B connections
+int enB1 = 8;
+int in3_1 = 6;
+int in4_1 = 7;
+
+// Motor A2 connections
+int enA2 = 27;
+int in1_2 = 25;
+int in2_2 = 23;
+// Motor B2 connections
+int enB2 = 22;
+int in3_2 = 24;
+int in4_2 = 26;
+
+// Motor A3 connections
+int enA3 = 14;
+int in1_3 = 15;
+int in2_3 = 16;
+// Motor B3 connections
+int enB3 = 19;
+int in3_3 = 18;
+int in4_3 = 17;
+
+void setup() {  
+  servoMotor1.attach(8); 
+  servoMotor1.write(angleTurn);
+
+  servoMotor2.attach(9); 
+  servoMotor2.write(angleTurn);
+
+  servoMotor2.attach(10); 
+  servoMotor2.write(angleCameraBase);
+
+  servoMotor2.attach(11); 
+  servoMotor2.write(angleCamera);
+  
+ // Initialize the serial communication
+  Serial.begin(9600);
+  
+  // Set all the motor control pins to outputs
+  pinMode(enA1, OUTPUT);
+  pinMode(enB1, OUTPUT);
+  pinMode(in1_1, OUTPUT);
+  pinMode(in2_1, OUTPUT);
+  pinMode(in3_1, OUTPUT);
+  pinMode(in4_1, OUTPUT);
+
+  pinMode(enA2, OUTPUT);
+  pinMode(enB2, OUTPUT);
+  pinMode(in1_2, OUTPUT);
+  pinMode(in2_2, OUTPUT);
+  pinMode(in3_2, OUTPUT);
+  pinMode(in4_2, OUTPUT);
+
+  pinMode(enA3, OUTPUT);
+  pinMode(enB3, OUTPUT);
+  pinMode(in1_3, OUTPUT);
+  pinMode(in2_3, OUTPUT);
+  pinMode(in3_3, OUTPUT);
+  pinMode(in4_3, OUTPUT);
+}
+
+void moveForward() {
+  Serial.print("Forward");
+  // Turn on motors
+  digitalWrite(enA1, HIGH);
+  digitalWrite(enB1, HIGH);
+  digitalWrite(enA2, HIGH);
+  digitalWrite(enB2, HIGH);
+  digitalWrite(enA3, HIGH);
+  digitalWrite(enB3, HIGH);
+
+  // Set motor directions for forward movement
+  digitalWrite(in1_1, LOW);
+  digitalWrite(in2_1, HIGH);
+  digitalWrite(in3_1, LOW);
+  digitalWrite(in4_1, HIGH);
+  
+  digitalWrite(in1_2, LOW);
+  digitalWrite(in2_2, HIGH);
+  digitalWrite(in3_2, LOW);
+  digitalWrite(in4_2, HIGH);
+  
+  digitalWrite(in1_3, LOW);
+  digitalWrite(in2_3, HIGH);
+  digitalWrite(in3_3, LOW);
+  digitalWrite(in4_3, HIGH);
+}
+
+
+void moveBackward() {
+  Serial.print("Back");
+  // Turn on motors
+  digitalWrite(enA1, HIGH);
+  digitalWrite(enB1, HIGH);
+  digitalWrite(enA2, HIGH);
+  digitalWrite(enB2, HIGH);
+  digitalWrite(enA3, HIGH);
+  digitalWrite(enB3, HIGH);
+
+  // Set motor directions for backward movement
+  digitalWrite(in1_1, HIGH);
+  digitalWrite(in2_1, LOW);
+  digitalWrite(in3_1, HIGH);
+  digitalWrite(in4_1, LOW);
+  
+  digitalWrite(in1_2, HIGH);
+  digitalWrite(in2_2, LOW);
+  digitalWrite(in3_2, HIGH);
+  digitalWrite(in4_2, LOW);
+  
+  digitalWrite(in1_3, HIGH);
+  digitalWrite(in2_3, LOW);
+  digitalWrite(in3_3, HIGH);
+  digitalWrite(in4_3, LOW);
+}
+
+void stopMotors() {
+  // Turn off motors
+  Serial.print("Stop");
+  digitalWrite(enA1, LOW);
+  digitalWrite(enB1, LOW);
+  digitalWrite(enA2, LOW);
+  digitalWrite(enB2, LOW);
+  digitalWrite(enA3, LOW);
+  digitalWrite(enB3, LOW);
+}
+
+void loop() {
+  if (Serial.available()) {
+    char command = Serial.read(); 
+
+
+    switch (command) {
+      case 'w':
+        moveForward();
+        break;
+      
+      case 's':
+        moveBackward();
+        break;
+
+      case 'q':
+        stopMotors();
+        break;
+
+      case 'a':
+        moveLeft();
+        break;
+
+      case 'd':
+        moveRight();
+        break;
+        
+      case'e':
+        moveInitialTurn();
+        break;
+
+      case'6':
+        moveRightCamera();
+        break;
+
+      case'4':
+        moveLeftCamera();
+        break;
+        
+      case'5':
+        moveInitialCamera();
+        break;
+        
+      case'1':
+        moveLeftCameraBase();
+        break;
+
+      case'3':
+        moveRightCameraBase(); 
+        break;
+
+      case'2':
+        moveInitialCameraBase();
+        break;
+        
+      default:
+//        stopMotors();
+//        stopServo();
+//        stopCamera();
+//        stopCameraBase();
+        break;
+    }
+  }
+  slowDown();
+}
+
+void moveRight() {
+  angleTurn = 0; 
+}
+
+void moveLeft() {
+  angleTurn = 180; 
+}
+
+void moveInitialTurns() {
+  angleTurn = 90; 
+}
+
+void moveRightCamera() {
+  angleCamera = 0; 
+}
+
+void moveLeftCamera() {
+  angleCamera = 180; 
+}
+
+void moveInitialCamera() {
+  angleCamera = 90; 
+}
+
+void moveRightCameraBase() {
+  angleCameraBase = 0; 
+}
+
+void moveLeftCameraBase() {
+  angleCameraBase = 180; 
+}
+
+void moveInitialCameraBase() {
+  angleCameraBase = 90; 
+}
+
+
+void slowDown() {
+  if (servoMotor1.read() != angleTurn) {
+    int currentAngle1 = servoMotor1.read();
+    
+    if (currentAngle1 < angleTurn) {
+      currentAngle1 += increment1; 
+    } else {
+      currentAngle1 -= increment1; 
+    }
+    
+    servoMotor1.write(currentAngle1); 
+    delay(10); 
+  }
+  
+  if (servoMotor3.read() != angleCamera) {
+    int currentAngle2 = servoMotor2.read();
+    
+    if (currentAngle2 < angleCamera) {
+      currentAngle2 += increment2; 
+    } else {
+      currentAngle2 -= increment2; 
+    }
+    
+    servoMotor3.write(currentAngle2); 
+    delay(100); // Delay between position changes
+  }
+
+    if (servoMotor4.read() != angleCameraBase) {
+    int currentAngle3 = servoMotor4.read();
+    
+    if (currentAngle3 < angleCameraBase) {
+      currentAngle3 += increment3; 
+    } else {
+      currentAngle3 -= increment3; 
+    }
+    
+    servoMotor4.write(currentAngle3);
+    delay(10); 
+  }
+  
+}
