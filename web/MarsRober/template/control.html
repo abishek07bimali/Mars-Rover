@@ -19,17 +19,16 @@
     </style>
     <!-- Required meta tags -->
     <meta charset="utf-8"/>
-    <meta
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-            name="viewport"
-    />
+    <meta   content="width=device-width, initial-scale=1, shrink-to-fit=no"
+            name="viewport" />
+            
     <title>Plus Admin</title>
-    <link
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-            rel="stylesheet"
-    />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        rel="stylesheet" />
+
     <link href="/static/css/materialdesignicons.min.css" rel="stylesheet"/>
     <link href="/static/css/style.css" rel="stylesheet"/>
+
 </head>
 <body>
 <div class="container-scroller">
@@ -43,11 +42,17 @@
             <li class="pt-2 pb-1">
                 <span class="nav-item-head">Mars Rover</span>
             </li>
-
+            <li class="nav-item">
+                <a class="nav-link" href="Dash.html">
+                  <i class="fa-solid fa-house menu-icon"></i>
+                  <span class="menu-title">Dashboard</span>
+                </a>
+              </li>
+              
             <li class="nav-item">
                 <a class="nav-link" href="dashboard.html">
                     <i class="fa-solid fa-clapperboard menu-icon"></i>
-                    <span class="menu-title">Dashboard</span>
+                    <span class="menu-title">Stream</span>
                 </a>
             </li>
 
@@ -71,6 +76,14 @@
                     <span class="menu-title">Map</span>
                 </a>
             </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="images.html">
+                    <i class="fa-regular fa-image menu-icon"></i>
+                    <span class="menu-title">Images</span>
+                </a>
+            </li>
+
         </ul>
     </nav>
     <!-- partial -->
@@ -88,74 +101,35 @@
                         class="navbar-toggler navbar-toggler-right d-lg-none align-self-center"
                         data-toggle="offcanvas"
                         style="position: absolute; left: 85.4%"
-                        type="button"
-                >
+                        type="button" >
                     <span class="fa-solid fa-bars fa-lg menu-icon"></span>
                 </button>
             </div>
         </nav>
         <!-- partial -->
         <div class="main-panel" style="height: 100vh">
-            <div class="content-wrapper">
-                <div>
-                    <h1 class=>Manual OverRide</h1>
-                    <form method="POST" action="{% url 'run_script' %}">
+            <div class="content-wrapper p-5" style="display: flex; justify-content: space-around;">
+                <div class="mx-lg-5" style="display: flex;flex-direction: column; justify-content: center;">
+                    <h1 class=>Controlling the Rober</h1>
+                    <form method="POST" action="{% url 'run_script' %}" style="display: flex; justify-content: space-around;">
                         {% csrf_token %}
-                        <input type="submit" value="Run Script" />
+                        <input class="input-group my-3 p-4 bg-info w-auto" type="submit" value="Control Rober" />
                     </form>
 
                 </div>
-                <div>
-                    <h1>LED</h1>
-                    <p></p>
-
-                    <!-- <button onclick="updateThingSpeakField()" class="button button1">ON</button>
-                    <button onclick="offThingSpeakField()" class="button button1">OFF</button> -->
-
-                    <button onclick=" window.location.href =' https://api.thingspeak.com/update?api_key=JWWMXLD790TUMKC7&field1=1';" class="button button1">ON</button>
-                    <button onclick=" window.location.href =' https://api.thingspeak.com/update?api_key=JWWMXLD790TUMKC7&field1=0';" class="button button1">OFF</button>
-
-
-                </div>
-
-
-
-
-
-                <!-- <style>
-                    .button {
-                      border: none;
-                      color: white;
-                      padding: 15px 32px;
-                      text-align: center;
-                      text-decoration: none;
-                      display: inline-block;
-                      font-size: 16px;
-                      margin: 4px 2px;
-                      cursor: pointer;
-                    }
-                    .button1 {background-color: #4CAF50;} /* Green */
-                    .button2 {background-color: #008CBA;} /* Blue */
-                </style>
-                    <h1>LED</h1>
-                    <p></p>
-                    <button class=\"button buttonOff\">OFF</button></a>
-                    <button onclick=" window.location.href =' https://api.thingspeak.com/update?api_key=4SMEACYBK1I9KOJN&field1=0';" class="button button1">OFF</button>
-                     -->
-
                 <!-- content-wrapper ends -->
-                <!-- partial:../../partials/_footer.html -->
-                <footer class="footer">
-                    <div
-                            class="d-sm-flex justify-content-center justify-content-sm-between"
-                    >
-                        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">MarsRover</span>
 
-                        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"></span>
-                    </div>
-                </footer>
                 <!-- partial -->
             </div>
+            <footer class="footer">
+                <div
+                        class="d-sm-flex justify-content-center justify-content-sm-between"
+                >
+                    <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">MarsRover</span>
+
+                    <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"></span>
+                </div>
+            </footer>
             <!-- main-panel ends -->
         </div>
         <!-- page-body-wrapper ends -->
